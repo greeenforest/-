@@ -139,7 +139,14 @@
 			$(function () {
 				//当表单提交时，调用所有的校验方法
 				$("#registerForm").submit(function () {
-					return checkUsername() && checkPassword() && checkEmail() && checkName() && checkTelephone() && checkBirthday() && checkCheck();
+					//1。发送数据到服务器
+					if(checkUsername() && checkPassword() && checkEmail() && checkName() && checkTelephone() && checkCheck()){
+						//校验 通过，发送ajax请求，提交表单的数据
+						$.post("registUserServlet",$(this).serialize(),function (data) {
+							//处理服务器响应的数据 data
+						});
+					}
+					return false;
 					//如果这个方法没有返回值，或者返回为true，则表单提交，如果返回为false，则表单不提交
 				});
 
@@ -149,7 +156,7 @@
 				$("#email").blur(checkEmail);
 				$("#name").blur(checkName);
 				$("#telephone").blur(checkTelephone);
-				$("#birthday").blur(checkBirthday);
+				//$("#birthday").blur(checkBirthday);
 				$("#check").blur(checkCheck);
 
 			});
